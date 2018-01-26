@@ -1,0 +1,96 @@
+swagger: "2.0"
+info:
+  description: "Entity API documentation"
+  version: "1.0.0"
+  title: "Entity API"
+  termsOfService: "http://platform73.com/terms/"
+  contact:
+    email: "harut@platform73.com"
+  license:
+    name: "MIT license"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "35.227.96.112"
+basePath: "/api/v1"
+schemes:
+- "http"
+- "https"
+tags:
+- name: "project"
+  description: "Main usage concept"
+  externalDocs:
+    description: "Find out more"
+    url: "http://platform73.com/docs/project"
+- name: "blueprint"
+  description: "Template/Spec for device"
+  externalDocs:
+    description: "Find out more"
+    url: "http://platform73.com/docs/blueprint"
+- name: "device"
+  description: "An IoT device"
+  externalDocs:
+    description: "Find out more"
+    url: "http://platform73.com/docs/device"
+- name: "configuration"
+  description: "Device configuration"
+  externalDocs:
+    description: "Find out more"
+    url: "http://platform73.com/docs/configuration"
+definitions:
+  Project:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      userId:
+        type: "string"
+  Device:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "objectId"
+      name:
+        type: "string"
+      blueprintId:
+        type: "string"
+      key:
+        type: "string"
+      configuration:
+        $ref: "#/definitions/Configuration"
+  Blueprint:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "objectId"
+      name:
+        type: "string"
+      projectId:
+        type: "string"
+      configuration:
+        $ref: "#/definitions/Configuration"
+  Configuration:
+    type: array
+    items:
+      $ref: "#/definitions/ConfigurationItem"
+  ConfigurationItem:
+    type: object
+    properties:
+      id:
+        type: string
+      value:
+        type: string
+  Status:
+    type: object
+    properties:
+      status:
+        type: string
+      data:
+        type: object
+      err:
+        type: object
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
