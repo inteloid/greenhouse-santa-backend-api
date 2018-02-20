@@ -8,13 +8,7 @@ var cors = require('cors')
 var swaggerUi = require('swagger-ui-express');
 var swaggerJSDoc = require('swagger-jsdoc');
 
-var index = require('./routes/index');
 var users = require('./routes/users');
-var devices = require('./routes/devices');
-var metrics = require('./routes/metrics');
-var projects = require('./routes/projects');
-var blueprints = require('./routes/blueprints');
-
 var app = express();
 
 // view engine setup
@@ -30,12 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
-app.use('/', index);
 app.use('/api/v1/users', users);
-app.use('/api/v1/devices', devices);
-app.use('/api/v1/metrics', metrics);
-app.use('/api/v1/projects', projects);
-app.use('/api/v1/blueprints', blueprints);
 
 var swaggerDefinition = {
   info: {
