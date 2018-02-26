@@ -7,9 +7,21 @@ var bodyParser = require('body-parser');
 var cors = require('cors')
 var swaggerUi = require('swagger-ui-express');
 var swaggerJSDoc = require('swagger-jsdoc');
-
-var users = require('./routes/users');
+var mongoose = require('mongoose');
+var config = require('./config');
 var app = express();
+
+require('./model/user');
+
+var db1 = mongoose.createConnection(process.env.MONGO_URL || config.mongo.dbUrl, {
+  user: process.env.MONGO_USERNAME || config.mongo.user,
+  pass: process.env.MONGO_PASSWORD || config.mongo.pass,
+  server: config.mongo.server
+});
+
+app.db1 = {
+  users: db1.model('users')
+};
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,8 +35,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
-
-app.use('/api/v1/users', users);
 
 var swaggerDefinition = {
   info: {
@@ -46,6 +56,8 @@ app.get('/api-docs.json', function(req, res) {
   res.send(swaggerSpec);
 });
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {swaggerUrl: '/api-docs.json'}));
+
+require('./controller/api')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
