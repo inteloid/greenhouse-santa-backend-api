@@ -17,7 +17,14 @@ module.exports = function (app) {
     });
 
     app.post('/users', function (req, res, next) {
-        userService.addUser(req.body);
-        res.send(req.body);
+        userService.addUser(req.body).then(function (doc) {
+            res.send(doc);
+        }).catch(function (err) {
+            res.status(409);
+            res.send({
+                status: 'error',
+                message: err.message
+            });
+        });
     });
 }
