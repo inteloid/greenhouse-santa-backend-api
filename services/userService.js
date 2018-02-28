@@ -25,9 +25,6 @@ function UserService(app) {
                     if (err) {
                         return reject(err);
                     }
-
-                    console.log(doc)
-
                     resolve(doc);
                 });
         });

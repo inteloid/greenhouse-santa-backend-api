@@ -1,10 +1,10 @@
 var UserService = require('../services/userService')
 
-module.exports = function (app) {
+module.exports = function (app, passport) {
 
     var userService = new UserService(app);
 
-    app.get('/users', function (req, res, next) {
+    app.get('/users', passport.authenticate('jwt', {session: false}), function (req, res, next) {
         userService.getUsers().then(function (doc) {
             res.send(doc);
         }).catch(function (err) {
